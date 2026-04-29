@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 # ==============================================
 # 敵.
 # ==============================================
@@ -109,16 +109,25 @@ func _nway(n:int, center:float, wide:float, speed:float, delay:float=0.0) -> voi
 
 # 更新関数.
 func _process(delta):
+	# 移動処理.
+	_move(delta)
+
+	# 弾を撃つ処理.
 	_timer += delta
 	if _timer >= _shoot_interval:
 		_timer = 0.0
 		_nway(5, _aim(), 90, 80) # 5-Wayを撃つ. 中心はプレイヤーの方向, 範囲は90度, 速さは80
 		_attr = Attribute.invert(_attr) # 属性を反転させる.
-	
+
 	_update_batteies(delta) # 遅延発射の更新.
 
+func _move(delta:float) -> void:
+	# 移動処理. ここでは単純に左右に往復する
+	velocity *= delta * Common.get_speed_rate() # ゲーム全体の速度倍率を掛ける.
+	move_and_slide()
+
 # 衝突判定.
-func _on_area_entered(area: Area2D) -> void:
+func _on_overlap_area_area_entered(area: Area2D) -> void:
 	if(area is Horming):
 		# ホーミング弾と衝突したら消す.
 		area.queue_free() # 相手も消します.

@@ -34,7 +34,7 @@ func _process(delta):
 	# 加速度を適用する (velocityでdeltaを掛けるので直接加算する).
 	velocity += acceleration
 	# 弾を移動させる.
-	position += velocity * delta
+	position += velocity * delta * Common.get_speed_rate() # ゲーム全体の速度倍率を掛ける.
 	# 画面外に出たら削除する.
 	if position.x < -100 or position.x > 1000 or position.y < -100 or position.y > 800:
 		queue_free()

@@ -3,17 +3,26 @@
 [ext_resource type="Script" uid="uid://c011lhht0dai8" path="res://src/objects/Enemy.gd" id="1_7xjd5"]
 [ext_resource type="Texture2D" uid="uid://cbhsds2pl8rsf" path="res://assets/images/goast.png" id="1_hd1g8"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_2l2l4"]
+radius = 12.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_7xjd5"]
 radius = 20.0
 
-[node name="Enemy" type="Area2D" unique_id=1202232127]
+[node name="Enemy" type="CharacterBody2D" unique_id=436794063]
 script = ExtResource("1_7xjd5")
 
 [node name="Goast" type="Sprite2D" parent="." unique_id=239974308]
 scale = Vector2(2, 2)
 texture = ExtResource("1_hd1g8")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2025290386]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=932999649]
+shape = SubResource("CircleShape2D_2l2l4")
+debug_color = Color(0.9620531, 1.2513996e-06, 0.5095908, 0.41960785)
+
+[node name="OverlapArea" type="Area2D" parent="." unique_id=1642927779]
+
+[node name="Hit" type="CollisionShape2D" parent="OverlapArea" unique_id=2025290386]
 shape = SubResource("CircleShape2D_7xjd5")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_entered" from="OverlapArea" to="." method="_on_overlap_area_area_entered"]

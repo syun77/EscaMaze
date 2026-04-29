@@ -4,6 +4,8 @@ extends Node
 # ==============================================
 class_name Common
 
+static var _speed_rate:float = 1.0 # ゲーム全体の速度倍率. 1.0が通常速度. 0.5なら半速, 2.0なら倍速になる.
+static var _slow_timer:float = 0.0 # スローの残り時間. 秒数で指定.
 static var _player:Player = null # プレイヤー.
 static var _layers:Dictionary[String, CanvasLayer] = {} # レイヤーの辞書. レイヤー名をキーにしてCanvasLayerを格納.
 
@@ -61,3 +63,17 @@ static func get_nearest_enemy(node:Node2D) -> Enemy:
 			nearestDist = dist
 			nearest = enemy
 	return nearest
+
+static func start_slow_motion():
+	_speed_rate = 0.5 # 半速にする.
+	_slow_timer = 1.0 # スローの残り時間. 秒数で指定.
+
+static func update_slow_motion(delta: float):
+	if _slow_timer > 0.0:
+		_slow_timer -= delta
+		if _slow_timer <= 0.0:
+			_speed_rate = 1.0 # 通常速度に戻す.
+
+static func get_speed_rate() -> float:
+	# 現在の速度倍率を取得する関数.
+	return _speed_rate

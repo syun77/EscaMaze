@@ -78,7 +78,7 @@ func _move(delta: float) -> void:
 	# 移動していればアニメーションタイマーを更新.
 	_anim_timer += delta
 
-	velocity = dir * _speed
+	velocity = dir * _speed * Common.get_speed_rate() # ゲーム全体の速度倍率を掛ける.
 	move_and_slide()
 
 	# 描画リクエスト.
@@ -116,3 +116,5 @@ func _on_overlap_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_in
 			# エサに当たったときの処理.
 			add_power(1) # パワーを増やす.
 			area.queue_free() # エサを消す.
+			
+			Common.start_slow_motion() # スローを開始する.

@@ -85,11 +85,11 @@ func _process(delta: float) -> void:
 	# 旋回実行
 	_angle += d * _rot_speed
 	# 旋回速度を上げる
-	_rot_speed = lerp(_rot_speed, 1.0, delta * 0.1)
+	_rot_speed = lerp(_rot_speed, 1.0, Common.get_speed_rate() * delta * 0.1)
 	
 	# Line2Dの先頭を移動する
 	var next = p
-	var spd = _speed * delta
+	var spd = _speed * delta * Common.get_speed_rate()
 	if spd > length * SPEED_LIMIT_RATIO:
 		# 速度制限
 		spd = length * SPEED_LIMIT_RATIO

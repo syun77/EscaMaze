@@ -36,6 +36,9 @@ func _ready():
 	_camera.position = _player.position
 
 func _process(delta: float) -> void:
+	 # スローの更新処理.
+	Common.update_slow_motion(delta)
+
 	# カメラ追従.
 	_camera.position = _player.position
 
