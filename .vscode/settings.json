@@ -1,0 +1,21 @@
+{
+    // 実行ファイル.
+    "godot_tools.editor_path": "/Users/syun77/Library/Application Support/Steam/steamapps/common/Godot Engine/Godot.app",
+    "godotTools.editorPath.godot4": "/Users/syun77/Library/Application Support/Steam/steamapps/common/Godot Engine/Godot.app",
+    // ポート番号.
+    "godot_tools.gdscript_lsp_server_port": 6005,
+    // デバッグ設定.
+    "configurations": [
+        {
+            "name": "GDScript Godot",
+            "type": "godot",
+            "request": "launch",
+            "project": "${workspaceFolder}",
+            "port": 6007,
+            "debugServer": 6006,
+            "address": "127.0.0.1",
+            "launch_game_instance": true,
+            "launch_scene": false
+        }
+    ],
+}
