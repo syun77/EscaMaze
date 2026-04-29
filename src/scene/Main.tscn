@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cj1mdacphw1re" path="res://src/objects/Enemy.tscn" id="3_f073a"]
 [ext_resource type="LabelSettings" uid="uid://ceuv27trfneo7" path="res://assets/fonts/default.tres" id="4_j2eg1"]
 [ext_resource type="FontFile" uid="uid://cm4ojnwwgrwqc" path="res://assets/fonts/PixelMplus12-Regular.ttf" id="5_lmj0o"]
+[ext_resource type="PackedScene" uid="uid://cchggfsrgqha6" path="res://src/objects/Map.tscn" id="6_lmj0o"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nyccx"]
 font = ExtResource("5_lmj0o")
@@ -12,6 +13,8 @@ font_size = 24
 
 [node name="Main" type="Node2D" unique_id=1357047964]
 script = ExtResource("1_4gxt3")
+
+[node name="Map" parent="." unique_id=577172522 instance=ExtResource("6_lmj0o")]
 
 [node name="Player" parent="." unique_id=1187520201 instance=ExtResource("2_hk4rc")]
 position = Vector2(360, 307)

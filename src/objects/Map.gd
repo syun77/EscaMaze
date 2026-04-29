@@ -12,6 +12,8 @@ const CELL_VECTOR := Vector2(CELL_SIZE, CELL_SIZE) # 1つのセルのサイズ�
 
 const FOOD_OBJ = preload("res://src/objects/Food.tscn") # エサのシーン.
 
+# タイルマップ.
+
 # static関数.
 static func cell_to_pos(areaid: int, cell: Vector2i, center: bool=true) -> Vector2:
 	return _cell_to_pos(areaid, cell.x, cell.y, center)

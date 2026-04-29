@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 # ==============================================
 # プレイヤーオブジェクト.
 # ==============================================
@@ -9,6 +9,8 @@ const BASE_SPEED := 100.0 # 移動速度.
 const MAX_POWER := 10 # 最大パワー.
 
 const HORMING_OBJ = preload("res://src/objects/Horming.tscn") # ホーミング弾のシーン.
+
+@onready var _area2d:Area2D = $OverlapArea # 当たり判定用のエリア2D.
 
 # メンバ変数.
 var _anim_timer := 6.0 # アニメーションタイマー. 口の開き具合を変化させるために使用.
@@ -76,7 +78,8 @@ func _move(delta: float) -> void:
 	# 移動していればアニメーションタイマーを更新.
 	_anim_timer += delta
 
-	position += dir * _speed * delta
+	velocity = dir * _speed
+	move_and_slide()
 
 	# 描画リクエスト.
 	queue_redraw()
@@ -102,10 +105,10 @@ func _draw() -> void:
 	draw_colored_polygon(points, Color(1, 1, 0))
 
 # 衝突判定.
-func _on_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_index: int, local_shape_index: int) -> void:
+func _on_overlap_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_index: int, local_shape_index: int) -> void:
 	# エリアに入ったときの処理.
-	var local_owner_id := shape_find_owner(local_shape_index)
-	var local_shape_node := shape_owner_get_owner(local_owner_id)
+	var local_owner_id := _area2d.shape_find_owner(local_shape_index)
+	var local_shape_node := _area2d.shape_owner_get_owner(local_owner_id)
 	var shape_name: String = local_shape_node.name
 	print("Hit: " + shape_name)
 	if area is Food:
