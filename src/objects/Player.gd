@@ -1,12 +1,17 @@
 extends Node2D
-
+# ==============================================
+# プレイヤーオブジェクト.
+# ==============================================
 class_name Player
 
-const SPEED := 100.0
+# 定数.
+const SPEED := 100.0 # 移動速度.
 
-var _dir: DirUtil.eDir = DirUtil.eDir.NONE
-var _anim_timer := 0.0
+# メンバ変数.
+var _dir: DirUtil.eDir = DirUtil.eDir.NONE # 向き.
+var _anim_timer := 6.0 # アニメーションタイマー. 口の開き具合を変化させるために使用.
 
+# 更新.
 func _process(delta: float) -> void:
 
     # 移動処理.
@@ -26,14 +31,15 @@ func _process(delta: float) -> void:
     
     dir = dir.normalized()
     _dir = DirUtil.to_dir(dir)
-    # アニメーションタイマーを更新.
+    # 移動していればアニメーションタイマーを更新.
     _anim_timer += delta
 
     position += dir * SPEED * delta
 
+    # 描画リクエスト.
     queue_redraw()
 
-
+# 描画.
 func _draw() -> void:
     var radius := 20.0
     # アニメーションで口の開き具合を変化させる.
@@ -43,6 +49,7 @@ func _draw() -> void:
     var end_angle := face_angle + TAU - (mouth_angle / 2.0)
     var segments := 32
 
+    # 円弧を描画.
     var points := PackedVector2Array()
     points.append(position)
     for i in range(segments + 1):
