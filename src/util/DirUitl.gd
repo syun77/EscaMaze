@@ -20,7 +20,7 @@ enum eDir {
 
 }
 
-# 方向をベクトルに変換する.
+# 方向をベクトルに変換する (スクリーン座標系なので、-UP)
 static func to_vec(dir: eDir) -> Vector2:
 	match dir:
 		eDir.LEFT:
@@ -28,21 +28,21 @@ static func to_vec(dir: eDir) -> Vector2:
 		eDir.RIGHT:
 			return Vector2(1, 0)
 		eDir.UP:
-			return Vector2(0, -1)
-		eDir.DOWN:
 			return Vector2(0, 1)
+		eDir.DOWN:
+			return Vector2(0, -1)
 		eDir.LEFT_UP:
-			return Vector2(-1, -1).normalized()
-		eDir.RIGHT_UP:
-			return Vector2(1, -1).normalized()
-		eDir.LEFT_DOWN:
 			return Vector2(-1, 1).normalized()
-		eDir.RIGHT_DOWN:
+		eDir.RIGHT_UP:
 			return Vector2(1, 1).normalized()
+		eDir.LEFT_DOWN:
+			return Vector2(-1, -1).normalized()
+		eDir.RIGHT_DOWN:
+			return Vector2(1, -1).normalized()
 		_:
 			return Vector2.ZERO
 
-# ベクトルを方向に変換する.
+# ベクトルを方向に変換する (スクリーン座標系なので、-UP)
 static func to_dir(vec: Vector2) -> eDir:
 	if vec.x < 0 and vec.y < 0:
 		return eDir.LEFT_UP
@@ -117,7 +117,7 @@ static func rotate(dir: eDir, clockwise: bool = true) -> eDir:
 		_:
 			return eDir.NONE
 
-# 方向をラジアンに変換する
+# 方向をラジアンに変換する (スクリーン座標系なので、-UP)
 static func to_rad(dir: eDir) -> float:
 	match dir:
 		eDir.LEFT:
@@ -125,21 +125,21 @@ static func to_rad(dir: eDir) -> float:
 		eDir.RIGHT:
 			return 0
 		eDir.UP:
-			return -PI / 2
-		eDir.DOWN:
 			return PI / 2
+		eDir.DOWN:
+			return -PI / 2
 		eDir.LEFT_UP:
-			return -PI * 3 / 4
-		eDir.RIGHT_UP:
-			return -PI / 4
-		eDir.LEFT_DOWN:
 			return PI * 3 / 4
-		eDir.RIGHT_DOWN:
+		eDir.RIGHT_UP:
 			return PI / 4
+		eDir.LEFT_DOWN:
+			return -PI * 3 / 4
+		eDir.RIGHT_DOWN:
+			return -PI / 4
 		_:
 			return 0.0
 
-# 方向を角度に変換する.
+# 方向を角度に変換する (スクリーン座標系なので、-UP)
 static func to_deg(dir: eDir) -> float:
 	match dir:
 		eDir.LEFT:
@@ -147,17 +147,17 @@ static func to_deg(dir: eDir) -> float:
 		eDir.RIGHT:
 			return 0
 		eDir.UP:
-			return -90
-		eDir.DOWN:
 			return 90
+		eDir.DOWN:
+			return -90
 		eDir.LEFT_UP:
 			return -135
 		eDir.RIGHT_UP:
-			return -45
-		eDir.LEFT_DOWN:
-			return 135
-		eDir.RIGHT_DOWN:
 			return 45
+		eDir.LEFT_DOWN:
+			return -135
+		eDir.RIGHT_DOWN:
+			return -45
 		_:
 			return 0.0
 

@@ -44,20 +44,22 @@ func _ready() -> void:
 # 移動開始処理
 # @param speed 移動速度
 # @param start_angle 開始角度(-180〜180)
-# @param start 開始座標
+# @param pos 開始座標
 # @param end 終端座標
-func start(speed:float, start_angle:float, start:Vector2, end:Vector2) -> void:
-	position = Vector2.ZERO
+func start(speed:float, start_angle:float, pos:Vector2, end:Vector2) -> void:
+	position = Vector2.ZERO # Line の先頭を原点にするため、オブジェクト全体の位置は(0,0)にします.
 	for i in range(line.points.size()):
-		line.points[i] = start
+		line.points[i] = pos
 	
 	_aim_position = end
 	_angle = start_angle
 	_speed = speed
 	
 func _process(delta: float) -> void: 
-	# マウスの場所を狙うテスト
-	#_aim_position = get_viewport().get_mouse_position()
+	# ターゲット座標の取得.
+	var aim = _get_aim_instance()
+	if is_instance_valid(aim):
+		_aim_position = aim.position
 	
 	var p:Vector2 = line.points[0]
 	hit.position = p # Line2Dを直接動かすので当たり判定も一緒に動かします.
@@ -116,3 +118,7 @@ func _diff_angle(now:float, next:float) -> float:
 	if d > 180:
 		d -= 360
 	return d
+
+# ターゲットのインスタンスを取得する.
+func _get_aim_instance() -> Enemy:
+	return Common.get_nearest_enemy(self) # 一番近くにいる敵を取得する.

@@ -8,10 +8,12 @@ class_name Player
 const BASE_SPEED := 100.0 # 移動速度.
 const MAX_POWER := 10 # 最大パワー.
 
+const HORMING_OBJ = preload("res://src/objects/Horming.tscn") # ホーミング弾のシーン.
+
 # メンバ変数.
 var _anim_timer := 6.0 # アニメーションタイマー. 口の開き具合を変化させるために使用.
 var _rotate:float = 0.0 # 回転角度.
-var _power:int = 0 # エサを食べると増える.
+var _power:int = 100 # エサを食べると増える.
 var _speed := BASE_SPEED # 現在の移動速度.
 
 func add_power(amount: int) -> void:
@@ -22,9 +24,38 @@ func get_power() -> int:
 	# パワーを取得する関数.
 	return _power
 
+func get_forward(distance:float) -> Vector2:
+	# プレイヤーの向いている方向のベクトルを取得する関数.
+	var rad = _rotate
+	return position + Vector2(cos(rad), -sin(rad)) * distance
+
 # 更新.
 func _process(delta: float) -> void:
+	# ショットの発射.
+	if Input.is_action_just_pressed("ui_accept"):
+		_shoot()
 
+	# 移動処理.
+	_move(delta)
+
+# ショットの発射.
+func _shoot() -> void:
+	if _power <= 0:
+		# パワーが足りない.
+		return
+	
+	# パワーを消費してショットを発射する.
+	_power -= 1
+	var h = HORMING_OBJ.instantiate()
+	var forward = get_forward(1280) # プレイヤーの向いている方向のベクトルを取得.
+	var rot = rad_to_deg(_rotate) + 180 + randf_range(-30, 30) # プレイヤーの向きの反対方向にランダムな角度を加える.
+	rot = wrapf(rot, -180, 180) # 角度を-180〜180の範囲に収める.
+	print("forward:" + str(forward) + " rot:" + str(rot))
+	Common.get_layer("horming").add_child(h) # ホーミング弾をホーミングレイヤーに追加.
+	h.start(1000, rot, position, forward) # ホーミング弾のテスト発射.
+
+# 移動.
+func _move(delta: float) -> void:
 	# 移動処理.
 	var dir = Vector2.ZERO
 	if Input.is_action_pressed("ui_left"):
@@ -66,7 +97,7 @@ func _draw() -> void:
 	for i in range(segments + 1):
 		var t := float(i) / float(segments)
 		var a := lerpf(start_angle, end_angle, t)
-		points.append(Vector2(cos(a), sin(a)) * radius)
+		points.append(Vector2(cos(a), -sin(a)) * radius)
 
 	draw_colored_polygon(points, Color(1, 1, 0))
 
@@ -82,7 +113,3 @@ func _on_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_index: int
 			# エサに当たったときの処理.
 			add_power(1) # パワーを増やす.
 			area.queue_free() # エサを消す.
-
-
-
-

@@ -4,7 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://bvjmfn53ev1p1" path="res://src/objects/Player.tscn" id="2_hk4rc"]
 [ext_resource type="PackedScene" uid="uid://cj1mdacphw1re" path="res://src/objects/Enemy.tscn" id="3_f073a"]
 [ext_resource type="LabelSettings" uid="uid://ceuv27trfneo7" path="res://assets/fonts/default.tres" id="4_j2eg1"]
-[ext_resource type="PackedScene" uid="uid://co7lx2weh8kv1" path="res://src/objects/Horming.tscn" id="5_nyccx"]
+[ext_resource type="FontFile" uid="uid://cm4ojnwwgrwqc" path="res://assets/fonts/PixelMplus12-Regular.ttf" id="5_lmj0o"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_nyccx"]
+font = ExtResource("5_lmj0o")
+font_size = 24
 
 [node name="Main" type="Node2D" unique_id=1357047964]
 script = ExtResource("1_4gxt3")
@@ -13,11 +17,19 @@ script = ExtResource("1_4gxt3")
 position = Vector2(360, 307)
 
 [node name="FoodLayer" type="CanvasLayer" parent="." unique_id=458107716]
+follow_viewport_enabled = true
 
-[node name="Enemy" parent="." unique_id=1202232127 instance=ExtResource("3_f073a")]
+[node name="HormingLayer" type="CanvasLayer" parent="." unique_id=1314565840]
+follow_viewport_enabled = true
+
+[node name="EnemyLayer" type="CanvasLayer" parent="." unique_id=2024928084]
+follow_viewport_enabled = true
+
+[node name="Enemy" parent="EnemyLayer" unique_id=1202232127 instance=ExtResource("3_f073a")]
 position = Vector2(572, 95)
 
 [node name="BulletLayer" type="CanvasLayer" parent="." unique_id=287785158]
+follow_viewport_enabled = true
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1674314738]
 
@@ -27,5 +39,12 @@ offset_bottom = 23.0
 text = "POWER: 10"
 label_settings = ExtResource("4_j2eg1")
 
-[node name="Horming" parent="." unique_id=747929901 instance=ExtResource("5_nyccx")]
-position = Vector2(152, 408)
+[node name="Label2" type="Label" parent="UILayer" unique_id=704237556]
+offset_left = 16.0
+offset_top = 480.0
+offset_right = 232.0
+offset_bottom = 533.0
+text = "DEBUG"
+label_settings = SubResource("LabelSettings_nyccx")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1526674331]

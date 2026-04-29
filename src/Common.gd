@@ -36,3 +36,28 @@ static func get_aim(note: Node2D) -> float:
 		return 0.0
 	var dir = player.position - note.position
 	return rad_to_deg(atan2(-dir.y, dir.x)) # Y軸は下向きなので符号を反転させる.
+
+# 画面外かどうか.
+static func is_out_of_screen(node:Node2D, radius:float) -> bool:
+	var viewport = node.get_viewport()
+	var pos = node.position
+	var size = viewport.get_visible_rect().size
+	if pos.x < -radius or pos.x > size.x + radius or pos.y < -radius or pos.y > size.y + radius:
+		return true
+	return false
+
+# 一番近くにいる敵を取得する.
+static func get_nearest_enemy(node:Node2D) -> Enemy:
+	var enemyLayer = get_layer("enemy")
+	if enemyLayer == null:
+		return null
+	var nearest:Enemy = null
+	var nearestDist:float = INF
+	for enemy in enemyLayer.get_children():
+		if not is_instance_valid(enemy):
+			continue
+		var dist = node.position.distance_to(enemy.position)
+		if dist < nearestDist:
+			nearestDist = dist
+			nearest = enemy
+	return nearest
