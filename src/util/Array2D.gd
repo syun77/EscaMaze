@@ -40,10 +40,25 @@ func setv(x: int, y: int, v: int) -> void:
 func setv_pos(pos: Vector2i, v: int) -> void:
 	setv(pos.x, pos.y, v)
 
+# すべての要素を関数で処理する.
+func foreach(function: Callable) -> void:
+	for y in range(height):
+		for x in range(width):
+			function.call(x, y, getv(x, y))
+
 # 指定の値で埋める.
 func fill(v:int) -> void:
 	for i in range(width * height):
 		_data[i] = v
+
+# 指定の値に一致している座標をすべて取得する.
+func find_all(v:int) -> Array[Vector2i]:
+	var result:Array[Vector2i] = []
+	foreach(func(x, y, value):
+		if value == v:
+			result.append(Vector2i(x, y))
+	)
+	return result
 
 # 値を初期化する.
 func clear() -> void:
@@ -58,6 +73,7 @@ func dump() -> void:
 		print(s)
 
 # 開始から終端を穴掘り法で埋める.
+# @note start, end, width, heightすべてが "奇数" である必要があります (外壁ありの場合)
 func dig(start:Vector2i, end:Vector2i, wall:int) -> void:
 	var x = start.x
 	var y = start.y

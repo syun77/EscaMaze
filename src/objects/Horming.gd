@@ -31,8 +31,6 @@ var _rot_speed = 0.1
 var _destroy_requested = false
 # 属性.
 var _attr := Attribute.eAttr.WHITE
-# 線のグラデーション.
-var _gradient:Gradient = null
 
 # ターゲット座標
 # ・ターゲットが移動する場合はこの座標を更新する
@@ -59,7 +57,7 @@ func request_destroy() -> void:
 	_destroy_requested = true
 
 func _ready() -> void:
-	_gradient = line.gradient.duplicate() # グラデーションを保存しておく.
+	pass
 
 # 移動開始処理
 # @param speed 移動速度
@@ -80,6 +78,10 @@ func _process(delta: float) -> void:
 	var aim = _get_aim_instance()
 	if is_instance_valid(aim) and _destroy_requested == false:
 		_aim_position = aim.position
+	
+	if _destroy_requested:
+		# 破棄リクエストがある場合はアルファ値を下げていきます.
+		line.modulate.a = _time_wait # アルファ値を徐々に下げる.
 	
 	var p:Vector2 = line.points[0]
 	hit.position = p # Line2Dを直接動かすので当たり判定も一緒に動かします.

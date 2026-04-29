@@ -13,6 +13,7 @@ extends Node2D
 # objects.
 @onready var _player: Player = $Player # プレイヤー.
 @onready var _camera: Camera2D = $Camera2D # カメラ.
+@onready var _map: Map = $Map # マップ.
 
 # UI
 @onready var _powerLabel: Label = $UILayer/Label # パワー表示用のラベル.
@@ -29,8 +30,9 @@ func _ready():
 		"bullet": _bulletLayer,
 		"ui": _uiLayer
 	})
-	# デバッグ用にランダムでエサを配置する.
-	Map.debug_spawn_foods(_foodLayer)
+
+	# マップにエサを配置.
+	_map.put_food()
 
 	# カメラ追従.
 	_camera.position = _player.position

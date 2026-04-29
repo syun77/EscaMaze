@@ -11,7 +11,7 @@ const BULLET_OBJ = preload("res://src/objects/Bullet.tscn") # 敵弾のシーン
 # --------------------------------------------
 var _attr := Attribute.eAttr.WHITE # 属性.
 var _timer: float = 0.0 # 弾を撃つタイマー.
-var _shoot_interval: float = 3.0 # 弾を撃つ間隔
+var _shoot_interval: float = 10.0 # 弾を撃つ間隔
 
 # 遅延発射砲台.
 class DelayedBatteryInfo:
@@ -116,7 +116,8 @@ func _process(delta):
 	_timer += delta
 	if _timer >= _shoot_interval:
 		_timer = 0.0
-		_nway(5, _aim(), 90, 80) # 5-Wayを撃つ. 中心はプレイヤーの方向, 範囲は90度, 速さは80
+		#_nway(5, _aim(), 90, 80) # 5-Wayを撃つ. 中心はプレイヤーの方向, 範囲は90度, 速さは80
+		_bullet(_aim(), 80) # 狙い撃ちを撃つ.
 		_attr = Attribute.invert(_attr) # 属性を反転させる.
 
 	_update_batteies(delta) # 遅延発射の更新.
