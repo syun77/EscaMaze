@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://ceuv27trfneo7"]
+
+[ext_resource type="FontFile" uid="uid://cm4ojnwwgrwqc" path="res://assets/fonts/PixelMplus12-Regular.ttf" id="1_udeu7"]
+
+[resource]
+font = ExtResource("1_udeu7")
+font_size = 48

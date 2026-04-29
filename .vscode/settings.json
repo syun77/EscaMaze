@@ -6,8 +6,8 @@
     "editor.renderWhitespace": "all",
     "editor.guides.indentation": true,
     "editor.guides.highlightActiveIndentation": true,
-    // デフォルトはスペース固定（自動検出で切り替わらないようにする）.
-    "editor.insertSpaces": true,
+    // デフォルトはタブ固定（自動検出で切り替わらないようにする）.
+    "editor.insertSpaces": false,
     "editor.detectIndentation": false,
     "editor.tabSize": 4,
     // ポート番号.
@@ -16,9 +16,9 @@
     "workbench.colorCustomizations": {
         "editorWhitespace.foreground": "#ff9900aa"
     },
-    // GDScript もスペース固定（renderWhitespace で空白を可視化）.
+    // GDScript もタブ固定（renderWhitespace で空白を可視化）.
     "[gdscript]": {
-        "editor.insertSpaces": true,
+        "editor.insertSpaces": false,
         "editor.detectIndentation": false,
         "editor.tabSize": 4,
         "editor.renderWhitespace": "all"

@@ -37,6 +37,7 @@ static func debug_spawn_foods(parent: Node):
 		var cell = Vector2i(randi() % AREA_WIDTH, randi() % AREA_HEIGHT)
 		var pos = cell_to_pos(0, cell)
 		var food = FOOD_OBJ.instantiate()
+		food.set_attribute(Attribute.get_random()) # エサの属性をランダムに設定.
 		food.position = pos
 		# 現在のシーンを取得.
 		parent.add_child(food)

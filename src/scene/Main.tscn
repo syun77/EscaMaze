@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ccorxse2q8hxl" path="res://src/scene/Main.gd" id="1_4gxt3"]
 [ext_resource type="PackedScene" uid="uid://bvjmfn53ev1p1" path="res://src/objects/Player.tscn" id="2_hk4rc"]
 [ext_resource type="PackedScene" uid="uid://cj1mdacphw1re" path="res://src/objects/Enemy.tscn" id="3_f073a"]
+[ext_resource type="LabelSettings" uid="uid://ceuv27trfneo7" path="res://assets/fonts/default.tres" id="4_j2eg1"]
 
 [node name="Main" type="Node2D" unique_id=1357047964]
 script = ExtResource("1_4gxt3")
@@ -16,3 +17,11 @@ position = Vector2(360, 307)
 position = Vector2(572, 95)
 
 [node name="BulletLayer" type="CanvasLayer" parent="." unique_id=287785158]
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1674314738]
+
+[node name="Label" type="Label" parent="UILayer" unique_id=1200736178]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "POWER: 10"
+label_settings = ExtResource("4_j2eg1")
