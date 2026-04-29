@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://co7lx2weh8kv1"]
+
+[ext_resource type="Script" uid="uid://8kwfnymbx8gk" path="res://src/objects/Horming.gd" id="1_7chk1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p65k0"]
+radius = 32.0
+
+[sub_resource type="Curve" id="Curve_alyoi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Horming" type="Area2D" unique_id=747929901]
+script = ExtResource("1_7chk1")
+
+[node name="Hit" type="CollisionShape2D" parent="." unique_id=1894486412]
+shape = SubResource("CircleShape2D_p65k0")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=1801941129]
+points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+width_curve = SubResource("Curve_alyoi")

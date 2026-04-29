@@ -116,3 +116,11 @@ func _process(delta):
 		_attr = Attribute.invert(_attr) # 属性を反転させる.
 	
 	_update_batteies(delta) # 遅延発射の更新.
+
+# 衝突判定.
+func _on_area_entered(area: Area2D) -> void:
+	if(area is Horming):
+		# ホーミング弾と衝突したら消す.
+		area.queue_free() # 相手も消します.
+		queue_free()
+

@@ -5,13 +5,14 @@ extends Area2D
 class_name Player
 
 # 定数.
-const SPEED := 300.0 # 移動速度.
+const BASE_SPEED := 100.0 # 移動速度.
 const MAX_POWER := 10 # 最大パワー.
 
 # メンバ変数.
 var _anim_timer := 6.0 # アニメーションタイマー. 口の開き具合を変化させるために使用.
 var _rotate:float = 0.0 # 回転角度.
-var _power:int = 0 # パワーエサを食べると増える.
+var _power:int = 0 # エサを食べると増える.
+var _speed := BASE_SPEED # 現在の移動速度.
 
 func add_power(amount: int) -> void:
 	# パワーを増やす関数.
@@ -44,7 +45,7 @@ func _process(delta: float) -> void:
 	# 移動していればアニメーションタイマーを更新.
 	_anim_timer += delta
 
-	position += dir * SPEED * delta
+	position += dir * _speed * delta
 
 	# 描画リクエスト.
 	queue_redraw()

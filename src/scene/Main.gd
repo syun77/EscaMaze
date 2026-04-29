@@ -21,10 +21,18 @@ func _ready():
 	# デバッグ用にランダムでエサを配置する.
 	Map.debug_spawn_foods(_foodLayer)
 
+	$Horming.start(100, 0, Vector2.ZERO, Vector2(400, 300)) # ホーミング弾のテスト発射.
+
 func _process(delta: float) -> void:
+
+	var mouse_position = get_viewport().get_mouse_position()
+	if(is_instance_valid($Horming)):
+		$Horming.set_aim(mouse_position) # ホーミング弾のテストでマウスの位置を狙う.	
+
+	# UIの更新処理.
 	_update_ui(delta)
 
-func _update_ui(delta: float) -> void:
+func _update_ui(_delta: float) -> void:
 	# UIの更新処理.
 	var player = Common.get_player()
 	var power = player.get_power()
