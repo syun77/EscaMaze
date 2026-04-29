@@ -15,6 +15,12 @@ run/main_scene="uid://dfsywat6fo1o8"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
 [editor]
 
 naming/scene_name_casing=1
