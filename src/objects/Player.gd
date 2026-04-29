@@ -8,8 +8,8 @@ class_name Player
 const SPEED := 300.0 # 移動速度.
 
 # メンバ変数.
-var _dir: DirUtil.eDir = DirUtil.eDir.NONE # 向き.
 var _anim_timer := 6.0 # アニメーションタイマー. 口の開き具合を変化させるために使用.
+var _rotate:float = 0.0 # 回転角度.
 
 # 更新.
 func _process(delta: float) -> void:
@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
         return
     
     dir = dir.normalized()
-    _dir = DirUtil.to_dir(dir)
+    _rotate = DirUtil.approach_rad(_rotate, DirUtil.to_dir(dir), delta * 10)
     # 移動していればアニメーションタイマーを更新.
     _anim_timer += delta
 
@@ -44,7 +44,7 @@ func _draw() -> void:
     var radius := 20.0
     # アニメーションで口の開き具合を変化させる.
     var mouth_angle := PI * 0.01 + (PI * 0.5) * absf(sin(_anim_timer*8))
-    var face_angle := DirUtil.to_rad(_dir) # 開始オフセット.
+    var face_angle := _rotate # 開始オフセット.
     var start_angle := face_angle + mouth_angle / 2.0 # 開始.
     var end_angle := face_angle + TAU - (mouth_angle / 2.0) # 終端.
     var segments := 32 # 分割数.
