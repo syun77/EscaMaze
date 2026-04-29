@@ -6,13 +6,16 @@ class_name Horming
 
 # -------------------------------
 # 当たり判定の半径
-const HIT_RADIUS = 32
+const HIT_RADIUS = 16.0
 
 # 速度制限
 const SPEED_LIMIT_RATIO = 0.1
 
 # 接触してから消えるまでの時間
 const DESTROY_WAIT_TIME = 1.0
+
+const GRADIENT_BLACK = preload("res://assets/gradient/black_gradient.tres")
+const GRADIENT_WHITE = preload("res://assets/gradient/white_gradient.tres")
 # -------------------------------
 @onready var line = $Line2D
 @onready var hit = $Hit # Line2Dを直接動かすので当たり判定も一緒に動かします.
@@ -24,6 +27,12 @@ var _speed:float = 500
 var _angle:float = 0
 # 旋回速度
 var _rot_speed = 0.1
+# 破棄フラグ.
+var _destroy_requested = false
+# 属性.
+var _attr := Attribute.eAttr.WHITE
+# 線のグラデーション.
+var _gradient:Gradient = null
 
 # ターゲット座標
 # ・ターゲットが移動する場合はこの座標を更新する
@@ -33,13 +42,24 @@ var _aim_position := Vector2()
 
 var _time_wait = DESTROY_WAIT_TIME # 接触して1秒で消える
 # -------------------------------
+# 属性を設定.
+func set_attribute(attr: Attribute.eAttr) -> void:
+	_attr = attr
+	if attr == Attribute.eAttr.BLACK:
+		line.set_gradient(GRADIENT_BLACK) # 黒は専用のグラデーションを使用する.
+	else:
+		line.set_gradient(GRADIENT_WHITE) # 白はデフォルトのグラデーションを使用する.
 
 # ターゲット座標を更新.
 func set_aim(pos:Vector2) -> void:
 	_aim_position = pos
 
+# 破棄リクエスト.
+func request_destroy() -> void:
+	_destroy_requested = true
+
 func _ready() -> void:
-	pass
+	_gradient = line.gradient.duplicate() # グラデーションを保存しておく.
 
 # 移動開始処理
 # @param speed 移動速度
@@ -58,7 +78,7 @@ func start(speed:float, start_angle:float, pos:Vector2, end:Vector2) -> void:
 func _process(delta: float) -> void: 
 	# ターゲット座標の取得.
 	var aim = _get_aim_instance()
-	if is_instance_valid(aim):
+	if is_instance_valid(aim) and _destroy_requested == false:
 		_aim_position = aim.position
 	
 	var p:Vector2 = line.points[0]
@@ -67,12 +87,13 @@ func _process(delta: float) -> void:
 	# 回転方向を求める
 	var dir = (_aim_position - p)
 	var length = dir.length()
-	if length < HIT_RADIUS:
+	if length < HIT_RADIUS or _destroy_requested:
 		# 一定距離に近づいたら直接近づける
 		# 0.1の重みで線形補間します
 		line.points[0] = p.lerp(_aim_position, 0.1)
 		_update_line2d()
 		_time_wait -= delta
+		
 		if _time_wait < 0:
 			# 一定時間で消します
 			queue_free()

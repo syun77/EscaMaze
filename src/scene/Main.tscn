@@ -29,7 +29,13 @@ follow_viewport_enabled = true
 follow_viewport_enabled = true
 
 [node name="Enemy" parent="EnemyLayer" unique_id=1202232127 instance=ExtResource("3_f073a")]
-position = Vector2(572, 95)
+position = Vector2(840, 264)
+
+[node name="Enemy2" parent="EnemyLayer" unique_id=436794063 instance=ExtResource("3_f073a")]
+position = Vector2(160, 400)
+
+[node name="Enemy3" parent="EnemyLayer" unique_id=1458831179 instance=ExtResource("3_f073a")]
+position = Vector2(552, 144)
 
 [node name="BulletLayer" type="CanvasLayer" parent="." unique_id=287785158]
 follow_viewport_enabled = true

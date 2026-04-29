@@ -48,13 +48,15 @@ func _shoot() -> void:
 	
 	# パワーを消費してショットを発射する.
 	_power -= 1
-	var h = HORMING_OBJ.instantiate()
+	var h = HORMING_OBJ.instantiate() as Horming
 	var forward = get_forward(1280) # プレイヤーの向いている方向のベクトルを取得.
 	var rot = rad_to_deg(_rotate) + 180 + randf_range(-30, 30) # プレイヤーの向きの反対方向にランダムな角度を加える.
 	rot = wrapf(rot, -180, 180) # 角度を-180〜180の範囲に収める.
 	print("forward:" + str(forward) + " rot:" + str(rot))
 	Common.get_layer("horming").add_child(h) # ホーミング弾をホーミングレイヤーに追加.
 	h.start(1000, rot, position, forward) # ホーミング弾のテスト発射.
+
+	h.set_attribute(Attribute.get_random()) # TODO: ホーミング弾の属性をランダムに設定.
 
 # 移動.
 func _move(delta: float) -> void:
@@ -116,5 +118,5 @@ func _on_overlap_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_in
 			# エサに当たったときの処理.
 			add_power(1) # パワーを増やす.
 			area.queue_free() # エサを消す.
-			
+
 			Common.start_slow_motion() # スローを開始する.

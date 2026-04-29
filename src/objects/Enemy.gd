@@ -130,6 +130,7 @@ func _move(delta:float) -> void:
 func _on_overlap_area_area_entered(area: Area2D) -> void:
 	if(area is Horming):
 		# ホーミング弾と衝突したら消す.
-		area.queue_free() # 相手も消します.
+		var h = area as Horming
+		h.request_destroy() # 破棄リクエストを送る.
 		queue_free()
 

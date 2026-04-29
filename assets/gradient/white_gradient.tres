@@ -1,0 +1,7 @@
+[gd_resource type="Gradient" format=3 uid="uid://b22tix2o1oeen"]
+
+[resource]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 1, 0, 0.48075038, 0.9117118, 0.5372549)
+metadata/_snap_enabled = true
+metadata/_snap_count = 100
