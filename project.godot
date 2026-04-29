@@ -51,3 +51,4 @@ ui_cancel={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0.008632365, 2.4065375e-07, 0.117083244, 1)

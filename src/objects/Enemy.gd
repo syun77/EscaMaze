@@ -93,5 +93,6 @@ func _process(delta):
     if _timer >= _shoot_interval:
         _timer = 0.0
         _bullet(270, 100) # 270度(下方向)に速さ100で弾を撃つ.
+        _attr = Attribute.invert(_attr) # 属性を反転させる.
     
     _update_batteies(delta) # 遅延発射の更新.
