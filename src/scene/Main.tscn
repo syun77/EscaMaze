@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ccorxse2q8hxl" path="res://src/scene/Main.gd" id="1_4gxt3"]
 [ext_resource type="PackedScene" uid="uid://bvjmfn53ev1p1" path="res://src/objects/Player.tscn" id="2_hk4rc"]
+[ext_resource type="PackedScene" uid="uid://cj1mdacphw1re" path="res://src/objects/Enemy.tscn" id="3_f073a"]
 
 [node name="Main" type="Node2D" unique_id=1357047964]
 script = ExtResource("1_4gxt3")
@@ -10,3 +11,8 @@ script = ExtResource("1_4gxt3")
 position = Vector2(360, 307)
 
 [node name="FoodLayer" type="CanvasLayer" parent="." unique_id=458107716]
+
+[node name="Enemy" parent="." unique_id=1202232127 instance=ExtResource("3_f073a")]
+position = Vector2(572, 95)
+
+[node name="BulletLayer" type="CanvasLayer" parent="." unique_id=287785158]

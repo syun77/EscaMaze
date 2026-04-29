@@ -41,7 +41,7 @@ func _process(delta: float) -> void:
 
 # 描画.
 func _draw() -> void:
-    var radius := 20.0
+    var radius := 16.0
     # アニメーションで口の開き具合を変化させる.
     var mouth_angle := PI * 0.01 + (PI * 0.5) * absf(sin(_anim_timer*8))
     var face_angle := _rotate # 開始オフセット.
@@ -64,9 +64,13 @@ func _on_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_index: int
     # エリアに入ったときの処理.
     var local_owner_id := shape_find_owner(local_shape_index)
     var local_shape_node := shape_owner_get_owner(local_owner_id)
-    print("Hit: " + local_shape_node.name)
+    var shape_name: String = local_shape_node.name
+    print("Hit: " + shape_name)
     if area is Food:
-        # エサに当たったときの処理.
-        area.queue_free() # エサを消す.
+        if shape_name == "HitItem":
+            # エサに当たったときの処理.
+            area.queue_free() # エサを消す.
+
+
 
 

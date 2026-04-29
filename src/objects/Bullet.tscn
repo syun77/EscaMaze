@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://22i64e87gaf8"]
+
+[ext_resource type="Script" uid="uid://cnnpsltrplhdn" path="res://src/objects/Bullet.gd" id="1_sef2f"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_sef2f"]
+blend_mode = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sef2f"]
+
+[node name="Bullet" type="Area2D" unique_id=44406316]
+material = SubResource("CanvasItemMaterial_sef2f")
+script = ExtResource("1_sef2f")
+
+[node name="Hit" type="CollisionShape2D" parent="." unique_id=1392795078]
+shape = SubResource("CircleShape2D_sef2f")

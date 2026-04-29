@@ -1,8 +1,8 @@
 extends Node
 # ==============================================
-# グローバルノード.
+# 共通ノード.
 # ==============================================
-class_name Global
+class_name Common
 
 static var _player:Player = null # プレイヤー.
 static var _layers:Dictionary[String, CanvasLayer] = {} # レイヤーの辞書. レイヤー名をキーにしてCanvasLayerを格納.

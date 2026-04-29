@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cj1mdacphw1re"]
+
+[ext_resource type="Script" uid="uid://c011lhht0dai8" path="res://src/objects/Enemy.gd" id="1_7xjd5"]
+[ext_resource type="Texture2D" uid="uid://cbhsds2pl8rsf" path="res://assets/images/goast.png" id="1_hd1g8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7xjd5"]
+radius = 20.0
+
+[node name="Enemy" type="Area2D" unique_id=1202232127]
+script = ExtResource("1_7xjd5")
+
+[node name="Goast" type="Sprite2D" parent="." unique_id=239974308]
+scale = Vector2(2, 2)
+texture = ExtResource("1_hd1g8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2025290386]
+shape = SubResource("CircleShape2D_7xjd5")
