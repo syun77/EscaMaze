@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 # ==============================================
 # プレイヤーオブジェクト.
 # ==============================================
@@ -44,10 +44,10 @@ func _draw() -> void:
     var radius := 20.0
     # アニメーションで口の開き具合を変化させる.
     var mouth_angle := PI * 0.01 + (PI * 0.5) * absf(sin(_anim_timer*8))
-    var face_angle := DirUtil.to_rad(_dir)
-    var start_angle := face_angle + mouth_angle / 2.0	
-    var end_angle := face_angle + TAU - (mouth_angle / 2.0)
-    var segments := 32
+    var face_angle := DirUtil.to_rad(_dir) # 開始オフセット.
+    var start_angle := face_angle + mouth_angle / 2.0 # 開始.
+    var end_angle := face_angle + TAU - (mouth_angle / 2.0) # 終端.
+    var segments := 32 # 分割数.
 
     # 円弧を描画.
     var points := PackedVector2Array()
@@ -59,3 +59,9 @@ func _draw() -> void:
 
     draw_colored_polygon(points, Color(1, 1, 0))
 
+# 衝突判定.
+func _on_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_index: int, local_shape_index: int) -> void:
+    # エリアに入ったときの処理.
+    var local_owner_id := shape_find_owner(local_shape_index)
+    var local_shape_node := shape_owner_get_owner(local_owner_id)
+    print("Hit: " + local_shape_node.name)
