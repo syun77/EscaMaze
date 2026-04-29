@@ -10,10 +10,4 @@ func _process(_delta: float) -> void:
 
 func _draw() -> void:
     var radius := 10.0
-    var segments := 16
-    var points := PackedVector2Array()
-    for i in range(segments):
-        var t := float(i) / float(segments)
-        var a := t * TAU
-        points.append(Vector2(cos(a), sin(a)) * radius)
-    draw_colored_polygon(points, Color(1, 0, 0))
+    draw_circle(Vector2.ZERO, radius, Color(1.0, 0.5, 0.0))

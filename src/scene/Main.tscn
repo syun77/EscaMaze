@@ -8,3 +8,5 @@ script = ExtResource("1_4gxt3")
 
 [node name="Player" parent="." unique_id=1187520201 instance=ExtResource("2_hk4rc")]
 position = Vector2(360, 307)
+
+[node name="FoodLayer" type="CanvasLayer" parent="." unique_id=458107716]

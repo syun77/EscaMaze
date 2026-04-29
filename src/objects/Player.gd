@@ -5,7 +5,7 @@ extends Area2D
 class_name Player
 
 # 定数.
-const SPEED := 100.0 # 移動速度.
+const SPEED := 300.0 # 移動速度.
 
 # メンバ変数.
 var _dir: DirUtil.eDir = DirUtil.eDir.NONE # 向き.
@@ -51,11 +51,11 @@ func _draw() -> void:
 
     # 円弧を描画.
     var points := PackedVector2Array()
-    points.append(position)
+    points.append(Vector2.ZERO) # 中心点.
     for i in range(segments + 1):
         var t := float(i) / float(segments)
         var a := lerpf(start_angle, end_angle, t)
-        points.append(position + Vector2(cos(a), sin(a)) * radius)
+        points.append(Vector2(cos(a), sin(a)) * radius)
 
     draw_colored_polygon(points, Color(1, 1, 0))
 
@@ -65,3 +65,8 @@ func _on_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_index: int
     var local_owner_id := shape_find_owner(local_shape_index)
     var local_shape_node := shape_owner_get_owner(local_owner_id)
     print("Hit: " + local_shape_node.name)
+    if area is Food:
+        # エサに当たったときの処理.
+        area.queue_free() # エサを消す.
+
+
