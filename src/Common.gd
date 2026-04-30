@@ -8,6 +8,7 @@ static var _speed_rate:float = 1.0 # ゲーム全体の速度倍率. 1.0が通�
 static var _slow_timer:float = 0.0 # スローの残り時間. 秒数で指定.
 static var _player:Player = null # プレイヤー.
 static var _layers:Dictionary[String, CanvasLayer] = {} # レイヤーの辞書. レイヤー名をキーにしてCanvasLayerを格納.
+static var _map:TileMapLayer = null # タイルマップ.
 
 # レイヤーの登録.
 static func register_layers(layers: Dictionary[String, CanvasLayer]):

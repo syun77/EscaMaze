@@ -1,7 +1,7 @@
+extends Node2D
 # ==============================================
 # メインシーンのルートノード.
 # ==============================================
-extends Node2D
 
 # Layer.
 @onready var _foodLayer: CanvasLayer = $FoodLayer # エサのレイヤー.
