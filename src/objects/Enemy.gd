@@ -3,9 +3,21 @@ extends CharacterBody2D
 # 敵.
 # ==============================================
 class_name Enemy
+# --------------------------------------------
+# consts.
+# --------------------------------------------
+const CHASE_INTERVAL_TIMER = 10.0 # 追跡のインターバルタイマー.
+# 移動モード.
+enum eMoveState {
+	STAND_BY, # 待機.
+	CHASE, # 追跡.
+	ESCAPE, # 逃走.
+}
 
+# ■proloads
 const BULLET_OBJ = preload("res://src/objects/Bullet.tscn") # 敵弾のシーン.
 
+# onready.
 @onready var line_2d = $Line2D
 
 # --------------------------------------------
@@ -14,6 +26,10 @@ const BULLET_OBJ = preload("res://src/objects/Bullet.tscn") # 敵弾のシーン
 var _attr := Attribute.eAttr.WHITE # 属性.
 var _timer: float = 0.0 # 弾を撃つタイマー.
 var _shoot_interval: float = 10.0 # 弾を撃つ間隔
+var _move_state = eMoveState.CHASE # 移動状態.
+var _chase_interval: float = 0.0 # 追跡のインターバル.
+var _chase_path_list: PackedVector2Array = [] # 追跡座標リスト.
+var _move_speed: float = 50.0 # 移動速度.
 
 # --------------------------------------------
 # インナークラス.
@@ -125,20 +141,49 @@ func _process(delta):
 		_bullet(_aim(), 80) # 狙い撃ちを撃つ.
 		_attr = Attribute.invert(_attr) # 属性を反転させる.
 		
-		# 経路探索動作チェック用.
-		var target = Common.get_player_pos()
-		var path_list = Map.recalculate_path(position, target, false)
-		# デバッグ用にLine2Dに反映してみる.
-		line_2d.top_level = true # 親の影響を受けなくする.
-		line_2d.points = path_list
-		print(path_list)
 
 	_update_batteies(delta) # 遅延発射の更新.
 
 func _move(delta:float) -> void:
-	# 移動処理. ここでは単純に左右に往復する
-	velocity *= delta * Common.get_speed_rate() # ゲーム全体の速度倍率を掛ける.
+	match _move_state:
+		eMoveState.STAND_BY:
+			velocity *= 0.98 # 徐々に停止する.
+		eMoveState.CHASE:
+			_chase(delta)
+		eMoveState.ESCAPE:
+			pass
+	
+	# 移動処理.
+	velocity *= Common.get_speed_rate() # ゲーム全体の速度倍率を掛ける.
 	move_and_slide()
+
+# 追跡処理.
+func _chase(delta:float) -> void:
+	if _chase_path_list.is_empty() == false:
+		# 追跡リストに位置情報があればそこに向かって移動する.
+		var target := _chase_path_list[0]
+		var v = target - position
+		if v.length() < 4: # 4px近づけば到達とみなす.
+			_chase_path_list.remove_at(0) # 到達.
+		velocity = v.normalized() * _move_speed
+	
+	if _chase_interval > 0:
+		_chase_interval -= delta
+		return
+
+	# 経路探索動作チェック用.
+	var target = Common.get_player_pos()
+	_chase_path_list = Map.recalculate_path(position, target)
+	if _chase_path_list.is_empty():
+		# 先頭は自分自身の位置なので除去する.
+		_chase_path_list.remove_at(0)
+	# デバッグ用にLine2Dに反映してみる.
+	line_2d.top_level = true # 親の影響を受けなくする.
+	line_2d.points = _chase_path_list
+
+	# インターバルタイマーを再設定.
+	_chase_interval = CHASE_INTERVAL_TIMER
+	
 
 # --------------------------------------------
 # シグナル.

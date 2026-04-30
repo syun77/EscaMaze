@@ -210,7 +210,8 @@ static func _pos_to_cell(pos:Vector2, center:bool) -> Vector2i:
 	var world_pos := pos
 	if center:
 		# セルの中心を左上に移動.
-		world_pos -= CELL_VECTOR * 0.5
+		#world_pos -= CELL_VECTOR * 0.5
+		pass # 左上寄せは不要そう...
 	var base := Vector2i(world_pos.x/CELL_SIZE, world_pos.y/CELL_SIZE)
 	return base
 
