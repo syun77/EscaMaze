@@ -30,6 +30,8 @@ func _ready():
 		"bullet": _bulletLayer,
 		"ui": _uiLayer
 	})
+	# マップを登録.
+	Common.register_map(_map)
 
 	# マップにエサを配置.
 	_map.put_food()

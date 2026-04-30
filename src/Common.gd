@@ -39,6 +39,12 @@ static func register_player(player: Player) -> void:
 static func get_player() -> Player:
 	return _player
 
+# プレイヤーの位置を取得.
+static func get_player_pos() -> Vector2:
+	if is_instance_valid(_player):
+		return _player.position
+	return Vector2.ZERO
+
 # マップの登録.
 static func register_map(map: Map) -> void:
 	_map = map

@@ -6,6 +6,8 @@ class_name Enemy
 
 const BULLET_OBJ = preload("res://src/objects/Bullet.tscn") # 敵弾のシーン.
 
+@onready var line_2d = $Line2D
+
 # --------------------------------------------
 # メンバ変数.
 # --------------------------------------------
@@ -122,6 +124,14 @@ func _process(delta):
 		#_nway(5, _aim(), 90, 80) # 5-Wayを撃つ. 中心はプレイヤーの方向, 範囲は90度, 速さは80
 		_bullet(_aim(), 80) # 狙い撃ちを撃つ.
 		_attr = Attribute.invert(_attr) # 属性を反転させる.
+		
+		# 経路探索動作チェック用.
+		var target = Common.get_player_pos()
+		var path_list = Map.recalculate_path(position, target, false)
+		# デバッグ用にLine2Dに反映してみる.
+		line_2d.top_level = true # 親の影響を受けなくする.
+		line_2d.points = path_list
+		print(path_list)
 
 	_update_batteies(delta) # 遅延発射の更新.
 

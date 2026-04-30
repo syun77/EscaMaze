@@ -25,4 +25,9 @@ debug_color = Color(0.9620531, 1.2513996e-06, 0.5095908, 0.41960785)
 [node name="Hit" type="CollisionShape2D" parent="OverlapArea" unique_id=2025290386]
 shape = SubResource("CircleShape2D_7xjd5")
 
+[node name="Line2D" type="Line2D" parent="." unique_id=1540497477]
+points = PackedVector2Array(291, -27)
+width = 3.0
+default_color = Color(0.4312825, 0.6115833, 1, 1)
+
 [connection signal="area_entered" from="OverlapArea" to="." method="_on_overlap_area_area_entered"]
