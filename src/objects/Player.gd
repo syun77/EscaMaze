@@ -4,20 +4,34 @@ extends CharacterBody2D
 # ==============================================
 class_name Player
 
+# --------------------------------------------
 # 定数.
+# --------------------------------------------
 const BASE_SPEED := 100.0 # 移動速度.
 const MAX_POWER := 10 # 最大パワー.
 
+# ■preloads.
 const HORMING_OBJ = preload("res://src/objects/Horming.tscn") # ホーミング弾のシーン.
 
+# --------------------------------------------
+# onready.
+# --------------------------------------------
 @onready var _area2d:Area2D = $OverlapArea # 当たり判定用のエリア2D.
 
+# --------------------------------------------
 # メンバ変数.
+# --------------------------------------------
 var _anim_timer := 6.0 # アニメーションタイマー. 口の開き具合を変化させるために使用.
 var _rotate:float = 0.0 # 回転角度.
 var _power:int = 100 # エサを食べると増える.
 var _speed := BASE_SPEED # 現在の移動速度.
 
+# --------------------------------------------
+# メンバ関数.
+# --------------------------------------------
+# ■public.
+
+# パワーの加算.
 func add_power(amount: int) -> void:
 	# パワーを増やす関数.
 	_power = min(_power + amount, MAX_POWER)
@@ -30,6 +44,8 @@ func get_forward(distance:float) -> Vector2:
 	# プレイヤーの向いている方向のベクトルを取得する関数.
 	var rad = _rotate
 	return position + Vector2(cos(rad), -sin(rad)) * distance
+
+# ■private.
 
 # 更新.
 func _process(delta: float) -> void:
@@ -106,6 +122,9 @@ func _draw() -> void:
 
 	draw_colored_polygon(points, Color(1, 1, 0))
 
+# --------------------------------------------
+# シグナル.
+# --------------------------------------------
 # 衝突判定.
 func _on_overlap_area_shape_entered(_area_rid: RID, area: Area2D, _area_shape_index: int, local_shape_index: int) -> void:
 	# エリアに入ったときの処理.

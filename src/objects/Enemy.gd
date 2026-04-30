@@ -13,6 +13,9 @@ var _attr := Attribute.eAttr.WHITE # 属性.
 var _timer: float = 0.0 # 弾を撃つタイマー.
 var _shoot_interval: float = 10.0 # 弾を撃つ間隔
 
+# --------------------------------------------
+# インナークラス.
+# --------------------------------------------
 # 遅延発射砲台.
 class DelayedBatteryInfo:
 	""" 遅延発射弾の情報 """
@@ -127,6 +130,9 @@ func _move(delta:float) -> void:
 	velocity *= delta * Common.get_speed_rate() # ゲーム全体の速度倍率を掛ける.
 	move_and_slide()
 
+# --------------------------------------------
+# シグナル.
+# --------------------------------------------
 # 衝突判定.
 func _on_overlap_area_area_entered(area: Area2D) -> void:
 	if(area is Horming):
@@ -134,4 +140,3 @@ func _on_overlap_area_area_entered(area: Area2D) -> void:
 		var h = area as Horming
 		h.request_destroy() # 破棄リクエストを送る.
 		queue_free()
-
