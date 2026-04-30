@@ -15,11 +15,14 @@ const FOOD_OBJ = preload("res://src/objects/Food.tscn") # エサのシーン.
 # タイルマップ.
 var _array:Array2D = Array2D.new(AREA_WIDTH, AREA_HEIGHT) # タイルの配置を管理する2次元配列.
 
+# 開始.
 func _ready() -> void:
 	_array.fill(1) # 壁で埋める.
 	var start = Vector2i(1, 1)
 	var end = Vector2i(AREA_WIDTH - 2, AREA_HEIGHT - 2)
 	_array.dig(start, end, 1) # スタートからゴールまで掘る.
+	
+	# 通路以外にもランダムで穴を開けてみる.
 	for i in range(32):
 		var halfX = (AREA_WIDTH-2) / 2.0
 		var halfY = (AREA_HEIGHT-2) / 2.0
@@ -27,23 +30,21 @@ func _ready() -> void:
 		var y = 1 + (randi() % int(halfY * 2))
 		_array.setv(x, y, 0) # ランダムに穴を掘る.
 
+	# タイルマップにも反映する.
 	_array.foreach(func(x, y, v):
 		if v == 1:
 			_set_block(x, y) # ブロックの配置.
 	)
 	
+# エサの配置.
 func put_food() -> void:
 	var list = _array.find_all(0) # 値が0のセルをすべて取得する.
 	list.shuffle() # ランダムに並び替える.
 	for i in range(min(10, list.size())):
 		var cell = list[i]
-		var pos = cell_to_pos(0, cell) # セル座標から位置
-		var food = FOOD_OBJ.instantiate()
-		food.set_attribute(Attribute.get_random()) # エサの属性をランダムに設定.
-		food.position = pos
-		# 現在のシーンを取得.
-		Common.get_layer("food").add_child(food) # エサをフードレイヤーに追加.
-
+		var pos = cell_to_pos(0, cell) # セル座標から位置に変換.
+		# エサの配置.
+		_spawn_food_xy(pos)
 
 # ブロックの配置.
 func _set_block(x:int, y:int) -> void:
@@ -78,3 +79,16 @@ static func debug_spawn_foods(parent: Node):
 		food.position = pos
 		# 現在のシーンを取得.
 		parent.add_child(food)
+
+# エサの配置.
+static func _spawn_food_xy(pos:Vector2, attr:Attribute.eAttr=Attribute.eAttr.NONE) -> void:
+	if attr == Attribute.eAttr.NONE:
+		attr = Attribute.get_random() # 未指定の場合はランダム.
+	
+	# Foodインスタンスを生成.
+	var food = FOOD_OBJ.instantiate()
+	food.set_attribute(Attribute.get_random()) # エサの属性をランダムに設定.
+	food.position = pos
+	# FoodLayerに登録.
+	var layer = Common.get_layer("food")
+	layer.add_child(food)

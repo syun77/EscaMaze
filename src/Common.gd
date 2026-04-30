@@ -4,11 +4,18 @@ extends Node
 # ==============================================
 class_name Common
 
+const TIMER_SLOW = 1.0 # スローになる時間.
+const SLOW_SPEED_RATE_DEFAULT = 1.0 # 等速.
+const SLOW_SPEED_RATE = 0.5 # スロー時の速度割合.
+
+# ----------------------------------------------
+# static 変数.
+# ----------------------------------------------
 static var _speed_rate:float = 1.0 # ゲーム全体の速度倍率. 1.0が通常速度. 0.5なら半速, 2.0なら倍速になる.
 static var _slow_timer:float = 0.0 # スローの残り時間. 秒数で指定.
 static var _player:Player = null # プレイヤー.
 static var _layers:Dictionary[String, CanvasLayer] = {} # レイヤーの辞書. レイヤー名をキーにしてCanvasLayerを格納.
-static var _map:TileMapLayer = null # タイルマップ.
+static var _map:Map = null # タイルマップ.
 
 # レイヤーの登録.
 static func register_layers(layers: Dictionary[String, CanvasLayer]):
@@ -24,13 +31,21 @@ static func get_layer(layerName: String) -> CanvasLayer:
 		return null
 
 # プレイヤーの登録.
-static func register_player(player: Player):
+static func register_player(player: Player) -> void:
 	# プレイヤーを登録する関数.
 	_player = player
 
 # プレイヤーの取得.
 static func get_player() -> Player:
 	return _player
+
+# マップの登録.
+static func register_map(map: Map) -> void:
+	_map = map
+	
+# マップの取得.
+static func get_map() -> Map:
+	return _map
 
 # 狙い撃ち角度の取得.
 static func get_aim(note: Node2D) -> float:
@@ -58,22 +73,24 @@ static func get_nearest_enemy(node:Node2D) -> Enemy:
 	var nearestDist:float = INF
 	for enemy in enemyLayer.get_children():
 		if not is_instance_valid(enemy):
-			continue
+			continue # 無効なインスタンス.
 		var dist = node.position.distance_to(enemy.position)
 		if dist < nearestDist:
+			# 暫定で一番近い.
 			nearestDist = dist
 			nearest = enemy
 	return nearest
 
+# スロー再生開始.
 static func start_slow_motion():
-	_speed_rate = 0.5 # 半速にする.
-	_slow_timer = 1.0 # スローの残り時間. 秒数で指定.
+	_speed_rate = SLOW_SPEED_RATE
+	_slow_timer = TIMER_SLOW # スローの残り時間. 秒数で指定.
 
 static func update_slow_motion(delta: float):
 	if _slow_timer > 0.0:
 		_slow_timer -= delta
 		if _slow_timer <= 0.0:
-			_speed_rate = 1.0 # 通常速度に戻す.
+			_speed_rate = SLOW_SPEED_RATE_DEFAULT # 通常速度に戻す.
 
 static func get_speed_rate() -> float:
 	# 現在の速度倍率を取得する関数.
